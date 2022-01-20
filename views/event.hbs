@@ -30,26 +30,27 @@
                             </thead>
                             <tbody>
                                 <tr>
-
-                                <td>Auditorium</td>
-                                <td>May 1 (Sat) 10:30 AM</td>
-                                <td>30m</td>
-                                <td>Main</td>
-                                <td>100<i class=material-icons>people</i></td>
+                                {{#with event_data}}
+                                <td>{{event_location}}</td>
+                                <td>{{event_date}} {{event_time}}</td>
+                                <td>{{event_duration}}</td>
+                                <td>{{event_type}}</td>
+                                <td>{{event_interest}}<i class=material-icons>people</i></td>
                                 <!-- ADMIN ONLY BUTTONS -->
 
                                 <td nowrap>
                                   
                                     <!-- Alternatively to going to a new page, trigger a modal ??-->
-                                    <a class="btn-floating waves-effect waves-light green lighten-1" href="/eventform.html"><i class="material-icons">edit</i></a>
-                                    <a class="btn-floating waves-effect waves-light red" onclick='confirmDelete("Opening Ceremony","{{ event_id}}", "/events.html")'><i class="material-icons">delete</i></a>
+                                    <a class="btn-floating waves-effect waves-light green lighten-1" href="/events/{{event_id}}/modify"><i class="material-icons">edit</i></a>
+                                    <a class="btn-floating waves-effect waves-light red" onclick='confirmDelete("Opening Ceremony","{{ event_id}}", "/events")'><i class="material-icons">delete</i></a>
         
                                 </td>
 
                             </tbody>
                         </table>
-                        <div class="container event-description">The opening ceremony will be rad! Don't miss it. Or you're technically late.</div>
+                        <div class="container event-description">{{event_description}}</div>
                         
+                        {{/with}}
                         
                         <!-- TODO: Add a scrollable table (or series of cards??) listing the attendees who are interested -->
                         <!-- https://vembarrajan.medium.com/html-css-tricks-scroll-able-table-body-tbody-d23182ae0fbc -->
