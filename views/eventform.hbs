@@ -1,7 +1,7 @@
 
-    <form id="create_update_event" method="post" action="/events">
+    <form id="create_update_event" method="post" action="/events{{#if event}}/{{event.event_id}}{{/if}}">
       <!-- action and method depend on C vs U-->
-      <input type="hidden" name="event_id" id="event_id" value="0">
+      <input type="hidden" name="event_id" id="event_id" value="{{#if event}}{{event.event_id}}{{/if}}">
       <!-- server sets event_id value-->
 
       <div class="container">
@@ -56,7 +56,7 @@
               </div>
 
               <div class="input-field col s4">
-                <input type="number" id="event_duration" name="event_duration" min=0 step=15>
+                <input type="number" id="event_duration" name="event_duration" min=0 step=5>
                 <label for="event_duration">Duration (minutes)</label>
 
               </div>
@@ -70,7 +70,7 @@
             </div>
 
             <div class="button_wrapper">
-              <button class="submit waves-effect waves-light btn" type="submit">Create</button>
+              <button class="submit waves-effect waves-light btn" type="submit">{{#if event}}Update{{else}}Create{{/if}}</button>
             </div>
           </div>
         </div>
@@ -98,4 +98,22 @@
     });
 
     //TODO Form Validation
+
+    //Set fields to curent values, if existing event data provided (modify)
+    {{#with event}} 
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById("event_name").value = "{{event_name}}";
+        document.getElementById("event_type").value = "{{event_type_id}}";
+        document.getElementById("event_location").value = "{{event_location_id}}";
+        document.getElementById("event_date").value = "{{event_date_mdy}}";
+        document.getElementById("event_time").value = "{{event_time}}";
+        document.getElementById("event_duration").value = "{{event_duration}}";
+        {{!-- Use triple mustaches to NOT escape characters --}}
+        document.getElementById("event_description").value = "{{{event_description}}}";
+
+        
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems, {});
+    });
+    {{/with}}
   </script>

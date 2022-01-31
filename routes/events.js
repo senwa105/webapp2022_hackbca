@@ -72,15 +72,23 @@ router.get('/:event_id', function(req, res, next) {
   });
 });
 
+
+let singleEventForFormQuery = fs.readFileSync(path.join(__dirname, "../db/select_event_single_form.sql"), "utf-8");
+
 router.get('/:event_id/modify', async function(req, res, next) {
   try {
 
     let event_locations = await db.queryPromise(event_locations_query);
     let event_types = await db.queryPromise(event_types_query);
-  
+    //Very much like the get('/:event_id') route... 
+    let event_id = req.params.event_id
+    let results = await db.queryPromise( singleEventForFormQuery, [event_id]);
+    let event_data = results[0];
+
     res.render('eventform', {title: "Modify Event", style: "newevent", 
                             event_locations:event_locations, 
-                          event_types:event_types});
+                          event_types:event_types,
+                        event: event_data}); // provide current event data
   } catch(err) {
     next(err);
   }
@@ -104,8 +112,24 @@ router.post('/', async function(req, res, next) {
   } catch(err) {
     next(err);
   }
+})
 
+let updateEventQuery = fs.readFileSync(path.join(__dirname, "../db/update_event.sql"), "utf-8"); 
+router.post('/:event_id', async function(req, res, next) {
+  try {
+    let results = await db.queryPromise(updateEventQuery, [req.body.event_name, 
+      req.body.event_location_id, 
+      req.body.event_type_id, 
+      `${req.body.event_date} ${req.body.event_time}`,
+      req.body.event_duration,
+      req.body.event_description,
+      req.params.event_id // or req.body.event_id, since its a hidden input in the form
+    ]);
 
+  res.redirect(`/events/${req.params.event_id}`);
+  } catch(err) {
+    next(err);
+  }
 })
 
 module.exports = router;
