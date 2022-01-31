@@ -27,8 +27,22 @@ router.get('/', async function(req, res, next) {
 
 });
 
-router.get('/create', function(req, res, next) {
-  res.render('eventform', {title: "Create Event", style: "newevent"})
+let event_locations_query = fs.readFileSync(path.join(__dirname, "../db/select_event_locations.sql"), "utf-8");
+let event_types_query = fs.readFileSync(path.join(__dirname, "../db/select_event_types.sql"), "utf-8");
+
+
+router.get('/create', async function(req, res, next) {
+  try {
+
+    let event_locations = await db.queryPromise(event_locations_query);
+    let event_types = await db.queryPromise(event_types_query);
+  
+    res.render('eventform', {title: "Create Event", style: "newevent", 
+                            event_locations:event_locations, 
+                          event_types:event_types})
+  } catch(err) {
+    next(err);
+  }
 })
 
 let singleEventQuery = fs.readFileSync(path.join(__dirname, "../db/select_event_single.sql"), "utf-8");
@@ -58,8 +72,40 @@ router.get('/:event_id', function(req, res, next) {
   });
 });
 
-router.get('/:event_id/modify', function(req, res, next) {
-  res.render('eventform', {title: "Modify Event", style: "newevent"})
+router.get('/:event_id/modify', async function(req, res, next) {
+  try {
+
+    let event_locations = await db.queryPromise(event_locations_query);
+    let event_types = await db.queryPromise(event_types_query);
+  
+    res.render('eventform', {title: "Modify Event", style: "newevent", 
+                            event_locations:event_locations, 
+                          event_types:event_types});
+  } catch(err) {
+    next(err);
+  }
+
+});
+
+let insertEventQuery = fs.readFileSync(path.join(__dirname, "../db/insert_event.sql"), "utf-8");
+// (`event_name`, `event_location_id`, `event_type_id`, `event_dt`, `event_duration`, `event_description`) 
+router.post('/', async function(req, res, next) {
+  try {
+    let results = await db.queryPromise(insertEventQuery, [req.body.event_name, 
+      req.body.event_location_id, 
+      req.body.event_type_id, 
+      `${req.body.event_date} ${req.body.event_time}`,
+      req.body.event_duration,
+      req.body.event_description
+    ]);
+
+  let event_id_inserted = results.insertId;
+  res.redirect(`/events/${event_id_inserted}`);
+  } catch(err) {
+    next(err);
+  }
+
+
 })
 
 module.exports = router;
