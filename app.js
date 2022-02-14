@@ -8,6 +8,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var eventsRouter = require('./routes/events');
 
+const { auth } = require('express-openid-connect');
+
 var app = express();
 
 // view engine setup
@@ -19,6 +21,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+require('dotenv').config()
+
+const authConfig = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: process.env.AUTH_SECRET,
+  baseURL: process.env.AUTH_BASEURL,
+  clientID: process.env.AUTH_CLIENTID,
+  issuerBaseURL: process.env.AUTH_ISSUERBASEURL
+};
+
+app.use(auth(authConfig));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
