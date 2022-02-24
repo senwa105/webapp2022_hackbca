@@ -141,5 +141,14 @@ router.post('/:event_id', requireAdmin ,async function(req, res, next) {
   }
 })
 
+let deleteEventQuery = "DELETE FROM event WHERE event_id = ?";
+router.get('/:event_id/delete', requireAdmin, async (req, res, next) => {
+  try {
+    await db.queryPromise(deleteEventQuery, req.params.event_id);
+    res.redirect('/events')
+  } catch (err) {
+    next(err);
+  }
+})
 
 module.exports = router;
