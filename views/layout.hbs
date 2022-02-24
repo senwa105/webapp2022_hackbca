@@ -35,7 +35,11 @@
           <li><a href="/events"><i class="material-icons left">event</i>Events</a></li>
           <li><a href="/attendees"><i class="material-icons left">people</i>Attendees</a></li>
           <li><a href="/projects"><i class="material-icons left">build</i>Projects</a></li>
+          {{#if isAuthenticated}}
+          <li><a href="/logout" class="btn">Logout</a></li>
+          {{else}}
           <li><a href="/login" class="btn">Login / Register</a></li>
+          {{/if}}
         </ul>
       </div>
     </nav>
@@ -43,7 +47,11 @@
       <li><a href="/events"><i class="material-icons left">event</i>Events</a></li>
       <li><a href="/attendees"><i class="material-icons left">people</i>Attendees</a></li>
       <li><a href="/projects"><i class="material-icons left">build</i>Projects</a></li>
+      {{#if isAuthenticated}}
+      <li><a href="/logout" class="btn">Logout</a></li>
+      {{else}}
       <li><a href="/login" class="btn">Login / Register</a></li>
+      {{/if}}
     </ul>
   </header>
 
