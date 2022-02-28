@@ -15,6 +15,7 @@ function requireAdmin(req, res, next){
 }
 
 let eventsQuery = fs.readFileSync(path.join(__dirname, "../db/select_events.sql"), "utf-8");
+let eventsWithUserInterestQuery = fs.readFileSync(path.join(__dirname, "../db/select_events_with_user_interest.sql"), "utf-8");
 
 /* GET events "home" page - a list of all events. */
 router.get('/', async function(req, res, next) {
@@ -26,8 +27,8 @@ router.get('/', async function(req, res, next) {
   // });
 
   try {
-    let results = await db.queryPromise(eventsQuery)
-    console.log(results);
+    let results = res.locals.isAuthenticated ? await db.queryPromise(eventsWithUserInterestQuery, [req.db_user_id]): await db.queryPromise(eventsQuery)
+    // console.log(results);
     res.render('events', { title: 'Events', style: "tables", events: results});
   } catch (err) {
     next(err);

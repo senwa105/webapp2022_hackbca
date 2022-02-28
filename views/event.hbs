@@ -11,8 +11,15 @@
                         {{#if @root.isAuthenticated}}
 
                       <!-- USER ONLY - Initialize page with appropriate state of button -->
-                      <a onclick='toggleInterest(this, "{{ event_id }}")' class="btn-floating btn-large halfway-fab waves-effect waves-light scale-transition scale-in blue"><i class="material-icons">star_border</i></a>
-                      <!-- <a onclick='toggleInterest(this, "{{ event_id }}"))'class="btn-floating btn-large halfway-fab waves-effect waves-light scale-transition scale-in yellow"><iclass="material-icons">star</i></a> -->
+                            <!-- If user already "starred" this event, it should be a yellow star -->
+                            {{#unless user_interest}} 
+                            <a onclick='toggleInterest(this, "{{ event_id }}")' class="btn-floating btn-large halfway-fab waves-effect waves-light scale-transition scale-in blue">
+                                <i class="material-icons">star_border</i></a>
+                            {{else}}
+                            <a onclick='toggleInterest(this, "{{ event_id }}"))'class="btn-floating btn-large halfway-fab waves-effect waves-light scale-transition scale-in yellow">
+                                <i class="material-icons">star</i></a>
+                            {{/unless}}
+
                         {{/if}}                    
                     </div>
                     <div class="card-content">

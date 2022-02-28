@@ -39,15 +39,18 @@ app.use(auth(authConfig));
 app.use( async (req, res, next) => {
   res.locals.isAuthenticated = req.oidc.isAuthenticated();
   if (res.locals.isAuthenticated){
-    //check if admin
-    let results = await db.queryPromise("SELECT admin FROM user WHERE email = ?", [req.oidc.user.email])
+    //check if admin and get user_id
+    let results = await db.queryPromise("SELECT user_id, admin FROM user WHERE email = ?", [req.oidc.user.email])
     if (results.length > 0) {
       res.locals.isAdmin = (results[0].admin == 1)
+      req.db_user_id = results[0].user_id
     } else {
       //if no account yet, set up user row in database (account information)
       //For now, we'll just make a quick "account" with just the email info
-      await db.queryPromise("INSERT INTO user (email) VALUES (?)", [req.oidc.user.email]);
+      //We'll get back the insertedId in the results
+      let insertResults = await db.queryPromise("INSERT INTO user (email) VALUES (?)", [req.oidc.user.email]);
       res.locals.isAdmin = false;
+      req.db_user_id = insertResults.insertedId;
     }
   }
   next();

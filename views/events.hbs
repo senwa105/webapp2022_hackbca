@@ -63,10 +63,14 @@
             {{#if @root.isAuthenticated}}
             <td>
               <a onclick='toggleInterest(this, "{{ event_id }}")'
-                class="btn-floating btn-small waves-effect waves-light scale-transition scale-in blue"><i
-                  class="material-icons">star_border</i></a>
               <!-- If user already "starred" this event, it should be a yellow star -->
-              <!-- <a onclick='toggleInterest(this, "{{ event_id }}"))'class="btn-floating btn-small waves-effect waves-light scale-transition scale-in yellow"><iclass="material-icons">star</i></a> -->
+              {{#unless event_user_interest}} 
+              <a onclick='toggleInterest(this, "{{ event_id }}"))'class="btn-floating btn-small waves-effect waves-light scale-transition scale-in blue">
+                <i class="material-icons">star_border</i></a>
+              {{else}}
+              <a onclick='toggleInterest(this, "{{ event_id }}"))'class="btn-floating btn-small waves-effect waves-light scale-transition scale-in yellow">
+                <i class="material-icons">star</i></a>
+              {{/unless}}
             </td>
             {{/if}}
             <td class="blue-text clickable" onclick="location.href='/events/{{event_id}}'">{{event_name}}</td>
