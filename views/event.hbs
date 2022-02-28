@@ -8,10 +8,12 @@
                             <img src="/images/assembly.jpg">
                         </div>
                         <span class="card-title"><h1>{{event_data.event_name}}</h1></span>
+                        {{#if @root.isAuthenticated}}
+
                       <!-- USER ONLY - Initialize page with appropriate state of button -->
                       <a onclick='toggleInterest(this, "{{ event_id }}")' class="btn-floating btn-large halfway-fab waves-effect waves-light scale-transition scale-in blue"><i class="material-icons">star_border</i></a>
                       <!-- <a onclick='toggleInterest(this, "{{ event_id }}"))'class="btn-floating btn-large halfway-fab waves-effect waves-light scale-transition scale-in yellow"><iclass="material-icons">star</i></a> -->
-                        
+                        {{/if}}                    
                     </div>
                     <div class="card-content">
 
@@ -24,8 +26,11 @@
                                 <th>Type </th>
                                 <th>Interest </th>
                                 <!-- ADMIN ONLY BUTTONS -->
+                                {{#if @root.isAdmin}}
+
                                 <th>Admin Op</th>
-                                
+                                {{/if}}
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -37,6 +42,7 @@
                                 <td>{{event_type}}</td>
                                 <td>{{event_interest}}<i class=material-icons>people</i></td>
                                 <!-- ADMIN ONLY BUTTONS -->
+                                {{#if @root.isAdmin}}
 
                                 <td nowrap>
                                   
@@ -45,6 +51,7 @@
                                     <a class="btn-floating waves-effect waves-light red" onclick='confirmDelete("Opening Ceremony","{{ event_id}}", "/events")'><i class="material-icons">delete</i></a>
         
                                 </td>
+                                {{/if}}
 
                             </tbody>
                         </table>
