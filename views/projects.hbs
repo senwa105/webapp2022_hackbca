@@ -1,0 +1,83 @@
+<!-- https://materializecss.com/grid.html -->
+
+    <div class="container">
+
+      <h1>Projects</h1>
+
+      <blockquote>
+        Click on the project for more details!
+        Click on <i class="material-icons tiny">sort</i> to sort by that column, or items in <i
+          class="material-icons tiny">filter_list</i> columns to filter by that item.
+      </blockquote>
+      <div class="row">
+        <div class="col l3 s12 "> <i class="left material-icons">sort</i>Sorted by: Date / Time</div>
+        <div class="col l3 offset-l6 ">
+          <!-- Position differently (left) for mobile -->
+          <div class="right hide-on-small-only"><i class="left material-icons">filter_list</i>Filter: None</div>
+          <div class="left hide-on-med-and-up"><i class="left material-icons">filter_list</i>Filter: None</div>
+        </div>
+
+      </div>
+
+      <!-- https://materializecss.com/table.html -->
+      <table class="highlight centered responsive-table">
+        <thead>
+          <tr>
+            <!-- USER ONLY-->
+            <th>Project</th>
+            <th>Owner</th>
+            <th>Date Proposed
+              <a href="?sort=datetime"><i class="material-icons">sort</i></a>
+            </th>
+            <th>Type</th>
+          <!-- ADMIN ONLY BUTTONS -->
+          {{#if isAdmin}}
+
+          <th>Admin Op</th>
+          {{/if}}
+          </tr>
+
+        </thead>
+
+        <tbody>
+          {{#each projects}}
+          <tr>
+
+            <!-- USER ONLY - Initialize page with appropriate state of button -->
+            <td class="blue-text clickable" onclick="location.href='/projects/{{project_id}}'">{{project_name}}</td>
+            <td>{{project_owner}}</td>
+            <td><a href='?filter=date:{{project_date_ymd}}'>{{project_date}}</a></td>
+            <td>{{project_type}}</td>
+            <td>{{project_type}}</td>
+            <!-- ADMIN ONLY BUTTONS -->
+            {{#if @root.isAdmin}}
+
+            <td nowrap>
+
+              <a class="btn-floating btn-small waves-effect waves-light green lighten-1" href="/projects/{{project_id}}/modify"><i
+                  class="material-icons">edit</i></a>
+              <a class="btn-floating waves-effect waves-light red"
+                onclick='confirmDelete("{{project_name}}","{{ project_id}}", ".")'><i
+                  class="material-icons">delete</i></a>
+
+            </td>
+            {{/if}}
+
+          </tr>
+        {{/each}}
+
+          
+
+        </tbody>
+      </table>
+    </div>
+
+    {{#if @root.isAdmin}}
+
+    <a href="/projects/create" class="btn-floating btn-large orange fixed-action-btn">
+      <i class="large material-icons">create</i>
+    </a>
+
+    {{/if}}
+
+    <script src="/js/event_utils.js"></script>

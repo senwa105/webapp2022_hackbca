@@ -1,0 +1,60 @@
+<div class="container">
+
+                  <div class="card">
+                    <!-- image is optional -->
+                    <div class="card-image">
+                        <!-- Added div wrapper to create dark gradient -->
+                        <div class="card-image-gradient"> 
+                            <img src="/images/assembly.jpg">
+                        </div>
+                        <span class="card-title"><h1>{{project_data.project_name}}</h1></span>
+
+                    </div>
+                    <div class="card-content">
+
+                        <table class="centered responsive-table">
+                            <thead>
+                                <tr>
+                                <th>Owner </th>
+                                <th>Date Proposed</th>
+                                <th>Type</th>
+                                <!-- ADMIN ONLY BUTTONS -->
+                                {{#if @root.isAdmin}}
+
+                                <th>Admin Op</th>
+                                {{/if}}
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                {{#with project_data}}
+                                <td>{{project_owner}}</td>
+                                <td>{{project_date}}</td>
+                                <td>{{project_type}}</td>
+                                <!-- ADMIN ONLY BUTTONS -->
+                                {{#if @root.isAdmin}}
+
+                                <td nowrap>
+                                  
+                                    <!-- Alternatively to going to a new page, trigger a modal ??-->
+                                    <a class="btn-floating waves-effect waves-light green lighten-1" href="/projects/{{project_id}}/modify"><i class="material-icons">edit</i></a>
+                                    <a class="btn-floating waves-effect waves-light red" onclick='confirmDelete("Opening Ceremony","{{ project_id}}", "/projects")'><i class="material-icons">delete</i></a>
+        
+                                </td>
+                                {{/if}}
+
+                            </tbody>
+                        </table>
+                        <div class="container project-description">{{project_description}}</div>
+                        <div class="container project-tech-stack">{{project_tech_stack}}</div>
+                        
+                        {{/with}}
+                        
+                    </div>
+                  </div>
+            
+    
+        </div>
+
+        <script src="/js/event_utils.js"></script>
