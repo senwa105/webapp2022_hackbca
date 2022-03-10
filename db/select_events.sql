@@ -1,4 +1,4 @@
-SELECT 
+SELECT
 	event.event_id as event_id, 
     event_name, 
     event_duration,
