@@ -48,7 +48,6 @@
             <td>{{project_owner}}</td>
             <td><a href='?filter=date:{{project_date_ymd}}'>{{project_date}}</a></td>
             <td>{{project_type}}</td>
-            <td>{{project_type}}</td>
             <!-- ADMIN ONLY BUTTONS -->
             {{#if @root.isAdmin}}
 
@@ -56,8 +55,8 @@
 
               <a class="btn-floating btn-small waves-effect waves-light green lighten-1" href="/projects/{{project_id}}/modify"><i
                   class="material-icons">edit</i></a>
-              <a class="btn-floating waves-effect waves-light red"
-                onclick='confirmDelete("{{project_name}}","{{ project_id}}", ".")'><i
+              <a class="btn-floating waves-effect waves-light red" href="/projects/{{project_id}}/delete"
+                onclick='confirmDelete("{{project_name}}","{{project_id}}", ".")'><i
                   class="material-icons">delete</i></a>
 
             </td>

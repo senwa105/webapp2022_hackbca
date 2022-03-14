@@ -80,12 +80,26 @@ router.get('/:project_id/modify', requireAdmin , async function(req, res, next) 
 
 });
 
+
 let insertProjectQuery = fs.readFileSync(path.join(__dirname, "../db/insert_project.sql"), "utf-8");
 router.post('/', requireAdmin ,async function(req, res, next) {
   try {
+    // let getOwnerId = fs.readFileSync(path.join(__dirname, "../db/get_user_id_from_name.sql"), "utf-8");
+    // let owner_id = await db.query(getOwnerId, [req.body.project_owner]);
+    // console.log('Owner Id');
+    // console.log(owner_id)
+    // console.log(owner_id.user_id);
+
+    console.log(req.body.project_name)
+    console.log(req.body.project_owner)
+    console.log(req.body.project_type_id)
+    console.log(req.body.project_date)
+    console.log(req.body.project_description)
+    console.log(req.body.project_tech_stack)
+
     let results = await db.queryPromise(insertProjectQuery, [req.body.project_name, 
-      req.body.project_owner, 
-      req.body.project_type,
+      `${req.body.project_owner}`, 
+      req.body.project_type_id,
       `${req.body.project_date}`,
       req.body.project_description,
       req.body.project_tech_stack
@@ -103,11 +117,11 @@ router.post('/:project_id', requireAdmin ,async function(req, res, next) {
   try {
     let results = await db.queryPromise(updateProjectQuery, [req.body.project_name, 
       req.body.project_owner, 
-      req.body.project_type,
+      req.body.project_type_id,
       `${req.body.project_date}`,
       req.body.project_description,
       req.body.project_tech_stack,
-      req.params.project_id // or req.body._id, projectsince its a hidden input in the form
+      req.params.project_id // or req.body.project_id, since its a hidden input in the form
     ]);
 
   res.redirect(`/projects/${req.params.project_id}`);
@@ -120,7 +134,7 @@ let deleteProjectQuery = "DELETE FROM project WHERE project_id = ?";
 router.get('/:project_id/delete', requireAdmin, async (req, res, next) => {
   try {
     await db.queryPromise(deleteProjectQuery, req.params.project_id);
-    res.redirect('/proejcts')
+    res.redirect('/projects')
   } catch (err) {
     next(err);
   }

@@ -5,7 +5,7 @@
                     <div class="card-image">
                         <!-- Added div wrapper to create dark gradient -->
                         <div class="card-image-gradient"> 
-                            <img src="/images/assembly.jpg">
+                            <img src="/images/{{project_data.project_name}}.png">
                         </div>
                         <span class="card-title"><h1>{{project_data.project_name}}</h1></span>
 
@@ -39,7 +39,8 @@
                                   
                                     <!-- Alternatively to going to a new page, trigger a modal ??-->
                                     <a class="btn-floating waves-effect waves-light green lighten-1" href="/projects/{{project_id}}/modify"><i class="material-icons">edit</i></a>
-                                    <a class="btn-floating waves-effect waves-light red" onclick='confirmDelete("Opening Ceremony","{{ project_id}}", "/projects")'><i class="material-icons">delete</i></a>
+                                    <a class="btn-floating waves-effect waves-light red" href="/projects/{{project_id}}/delete"
+                                        onclick='confirmDelete("{{project_name}}","{{project_id}}", "/projects")'><i class="material-icons">delete</i></a>
         
                                 </td>
                                 {{/if}}

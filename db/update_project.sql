@@ -7,5 +7,5 @@ SET
     project_description = ?,
     project_tech_stack
 WHERE
-	project_id = ?
+	project_id = ? 
 ;

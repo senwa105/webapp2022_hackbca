@@ -22,7 +22,7 @@
 
             <div class="row">
               <div class="input-field col s12">
-                <input type="text" id="project_name" class="validate" data-length="32" required>
+                <input type="text" name="project_owner" id="project_owner" class="validate" data-length="32" required>
                 <label for="project_owner">Owner Name</label>
               </div>
             </div>
@@ -40,7 +40,7 @@
               </div>
 
               <div class="input-field col s6">
-                <input type="text" id="project_date" name="project_date" class="datepicker no-autoinit" required>
+                <input type="text" name="project_date" id="project_date" name="project_date" class="datepicker no-autoinit" required>
                 <label for="project_date">Date</label>
               </div>
 
@@ -49,8 +49,15 @@
 
             <div class="row">
               <div class="input-field col s12">
-                <textarea id="project_description" name="project_description" class="materialize-textarea" data-length="500"></textarea>
+                <textarea name="project_description" id="project_description" class="materialize-textarea" data-length="500"></textarea>
                 <label for="project_description">Description</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col s12">
+                <textarea name="project_tech_stack" id="project_tech_stack" class="materialize-textarea" data-length="500"></textarea>
+                <label for="project_tech_stack">Tech Stack</label>
               </div>
             </div>
 
@@ -88,11 +95,12 @@
     {{#with project}} 
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("project_name").value = "{{project_name}}";
+        document.getElementById("project_owner").value = "{{project_owner}}";
         document.getElementById("project_type").value = "{{project_type_id}}";
         document.getElementById("project_date").value = "{{project_date_mdy}}";
         {{!-- Use triple mustaches to NOT escape characters --}}
         document.getElementById("project_description").value = "{{{project_description}}}";
-
+        document.getElementById("project_tech_stack").value = "{{{project_tech_stack}}}";
         
         var elems = document.querySelectorAll('select');
         var instances = M.FormSelect.init(elems, {});
