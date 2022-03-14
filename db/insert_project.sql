@@ -3,9 +3,9 @@ INSERT INTO project
 VALUES 
         (?, 
         (SELECT user_id
-        FROM user
-        WHERE CONCAT(first_name, ' ', last_name) = ?
-        LIMIT 1), 
+                FROM user
+                WHERE CONCAT(first_name, ' ', last_name) = ?
+                LIMIT 1), 
         ?, 
         STR_TO_DATE(?, '%m-%d-%Y'), 
         ?,
