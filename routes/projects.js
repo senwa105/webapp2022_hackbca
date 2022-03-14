@@ -121,7 +121,7 @@ router.post('/:project_id', requireAdmin ,async function(req, res, next) {
       `${req.body.project_date}`,
       req.body.project_description,
       req.body.project_tech_stack,
-      req.params.project_id // or req.body.project_id, since its a hidden input in the form
+      req.params.project_id
     ]);
 
   res.redirect(`/projects/${req.params.project_id}`);
